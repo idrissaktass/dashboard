@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { fetchData } from './api';
 import Activities from './components/Activities';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import TopEmployees from './components/TopEmployees';
 import Teams from './components/Teams';
 import InProgressCourses from './components/inProgressCourses';
 import DevelopingSkills from './components/DevelopingSkills';
-import './App.css'
+import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCheck, faUser, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,6 +17,24 @@ function App() {
   const [averageScore, setAverageScore] = useState("");
   const [completedCourses, setCompletedCourses] = useState("");
   const [totalEmployees, setTotalEmployees] = useState(null);
+  const [addEmployeeModalOpen, setAddEmployeeModalOpen] = useState(false);
+  const [createTeamModalOpen, setCreateTeamModalOpen] = useState(false);
+
+  const handleAddEmployeeModalOpen = () => {
+    setAddEmployeeModalOpen(true);
+  };
+
+  const handleCreateTeamModalOpen = () => {
+    setCreateTeamModalOpen(true);
+  };
+
+  const handleAddEmployeeModalClose = () => {
+    setAddEmployeeModalOpen(false);
+  };
+
+  const handleCreateTeamModalClose = () => {
+    setCreateTeamModalOpen(false);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -53,6 +71,10 @@ function App() {
       <Grid container justifyContent={'center'} gap={"50px"}>
         <Grid xs={12} textAlign={'center'}>
           <Typography variant='h2' color={"#5C83BF"}>Overview</Typography>
+        </Grid>
+        <Grid xs={12} display={'flex'} justifyContent={'center'} gap={"20px"}>
+          <Button sx={{ backgroundColor: "#5C83BF", color: 'black' }} onClick={handleAddEmployeeModalOpen}>Add Employee</Button>
+          <Button sx={{ backgroundColor: "#5C83BF", color: 'black' }} onClick={handleCreateTeamModalOpen}>Create a Team</Button>
         </Grid>
         <Grid bgcolor={"white"} border={"2px solid #5C83BF"} lg={5} xs={12} boxShadow={"0px 5px 10px #EFE5DE"}> 
           <Grid bgcolor={"#5C83BF"} padding={"10px"} color={"white"}>
@@ -105,6 +127,29 @@ function App() {
           <Teams/>
         </Grid>
       </Grid>
+      <Dialog open={addEmployeeModalOpen} onClose={handleAddEmployeeModalClose}>
+        <DialogTitle>Add Employee</DialogTitle>
+        <DialogContent>
+          <TextField autoFocus margin="dense" label="Name" fullWidth />
+          <TextField margin="dense" label="Email" fullWidth />
+          <TextField margin="dense" label="Role" fullWidth />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAddEmployeeModalClose}>Cancel</Button>
+          <Button onClick={handleAddEmployeeModalClose} variant="contained" color="primary">Add</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={createTeamModalOpen} onClose={handleCreateTeamModalClose}>
+        <DialogTitle>Create Team</DialogTitle>
+        <DialogContent>
+          <TextField autoFocus margin="dense" label="Team Name" fullWidth />
+          <TextField margin="dense" label="Employees" fullWidth />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCreateTeamModalClose}>Cancel</Button>
+          <Button onClick={handleCreateTeamModalClose} variant="contained" color="primary">Create</Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }
