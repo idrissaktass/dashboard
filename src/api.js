@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:4000/data';
+const API_URL ='https://demotrainiq.com/case/dashboard';
 
 export const fetchData = async () => {
   try {
